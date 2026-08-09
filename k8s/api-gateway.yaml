@@ -5,6 +5,13 @@ metadata:
   namespace: wanderlust
 spec:
   replicas: 1
+  # Replace the pod in place on updates (kill old, then start new) instead of running two
+  # at once — keeps the memory footprint flat during CI deploys on a small node.
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: api-gateway
