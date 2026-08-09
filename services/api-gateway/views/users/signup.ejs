@@ -5,17 +5,21 @@
         <form action="/signup" method="POST">
             <div>
             <label for="username"></label>
-            <input class="input-c" type="text" id="username" name="username" placeholder="username" required>
+            <input class="input-c" type="text" id="username" name="username" placeholder="username"
+                   minlength="3" maxlength="30" pattern="[a-zA-Z0-9_]+"
+                   title="3–30 characters: letters, numbers and underscores only" required>
             </div>
 
             <div>
             <label for="email"></label>
-            <input class="input-c" type="email" id="email" name="email" placeholder="email" required>
+            <input class="input-c" type="email" id="email" name="email" placeholder="email"
+                   title="Enter a valid email address" required>
             </div>
 
             <div>
             <label for="password"></label>
-            <input class="input-c" type="password" id="password" name="password" placeholder="password" required>
+            <input class="input-c" type="password" id="password" name="password" placeholder="password (min 6 chars)"
+                   minlength="6" maxlength="128" title="At least 6 characters" required>
             </div>
 
             <button class="btn" type="submit">SignUp</button>
