@@ -1,55 +1,38 @@
  <%- layout("layouts/boilerplate.ejs"); %>
 
  <body>
+    <style>
+        .allIcons a.oneIcon { text-decoration: none; color: inherit; opacity: 0.75; transition: opacity .15s, border-color .15s; border-bottom: 2px solid transparent; }
+        .allIcons a.oneIcon:hover { opacity: 1; }
+        .allIcons a.oneIcon.active-cat { opacity: 1; border-bottom: 2px solid #222; font-weight: 600; }
+    </style>
+    <%
+        const categories = [
+            { name: 'Trending', icon: 'fa-fire', all: true },
+            { name: 'Rooms', icon: 'fa-bed' },
+            { name: 'Iconic Cities', icon: 'fa-city' },
+            { name: 'Mountains', icon: 'fa-mountain' },
+            { name: 'Castles', icon: 'fa-chess-rook' },
+            { name: 'Amazing Pools', icon: 'fa-person-swimming' },
+            { name: 'Camping', icon: 'fa-campground' },
+            { name: 'Farms', icon: 'fa-cow' },
+            { name: 'Arctic', icon: 'fa-snowflake' },
+            { name: 'Domes', icon: 'fa-igloo' },
+            { name: 'Boats', icon: 'fa-sailboat' },
+        ];
+        const active = (typeof activeCategory !== 'undefined') ? activeCategory : null;
+    %>
     <div class="allIcons">
-        <div class="oneIcon">
-            <i class="fa-solid fa-fire"></i>
-            <p>Trending<p>
-
-        </div>
-        <div class="oneIcon">
-            <i class="fa-solid fa-bed"></i>
-            <p>Rooms<p>
-
-        </div>
-        <div class="oneIcon">
-            <i class="fa-solid fa-city"></i>
-            <p>Iconic Cities<p>
-
-        </div>
-        <div class="oneIcon">
-            <i class="fa-solid fa-mountain"></i>
-            <p>Mountains<p>
-        </div>
-        <div class="oneIcon">
-            <i class="fa-solid fa-chess-rook"></i>
-            <p>Castles<p>
-        </div>
-        <div class="oneIcon">
-            <i class="fa-solid fa-person-swimming"></i>
-            <p>Amazing pools<p>
-        </div>
-        <div class="oneIcon">
-            <i class="fa-solid fa-campground"></i>
-            <p>Camping<p>
-        </div>
-        <div class="oneIcon">
-            <i class="fa-solid fa-cow"></i>
-            <p>Farms<p>
-        </div>
-        
-        <div class="oneIcon">
-            <i class="fa-solid fa-snowflake"></i>
-            <p>Arctic<p>
-        </div>
-        <div class="oneIcon">
-            <i class="fa-solid fa-igloo"></i>
-            <p>Domes<p>
-        </div>
-        <div class="oneIcon">
-            <i class="fa-solid fa-sailboat"></i>
-            <p>Boats<p>
-        </div>
+        <% for (let c of categories) { %>
+            <%
+                const href = c.all ? '/listings' : ('/listings?category=' + encodeURIComponent(c.name));
+                const isActive = c.all ? !active : (active === c.name);
+            %>
+            <a class="oneIcon <%= isActive ? 'active-cat' : '' %>" href="<%= href %>">
+                <i class="fa-solid <%= c.icon %>"></i>
+                <p><%= c.name %></p>
+            </a>
+        <% } %>
         <div class="oneIcon" style="border: 1px solid black; border-radius: 30px; position:relative; top: -12px; margin-left: 4rem; ">
             <div class="tax">
                 <p><b>Display Taxes</b></p>
@@ -58,9 +41,15 @@
                     <span class="slider"></span>
                   </label>
             </div>
-       
+
         </div>
     </div>
+    <% if (!allListings || allListings.length === 0) { %>
+        <p style="padding: 2rem 1rem; font-size: 1.2rem; text-align: center; width: 100%;">
+            No listings<% if (active) { %> in "<%= active %>"<% } %> yet.
+            <a href="/listings/new">Add one?</a>
+        </p>
+    <% } %>
     <div class="container1">
         <% for(let listing of allListings){ %>
             <a href="/listings/<%= listing._id%>">

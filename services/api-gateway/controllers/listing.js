@@ -22,9 +22,11 @@ function listingFormData(req) {
 
 module.exports.index = async (req, res, next) => {
     try {
-        const r = await fetch(`${LISTING_SERVICE_URL}/listings`);
+        const category = req.query.category;
+        const qs = category ? `?category=${encodeURIComponent(category)}` : '';
+        const r = await fetch(`${LISTING_SERVICE_URL}/listings${qs}`);
         const allListings = await r.json();
-        res.render("listings/index.ejs", { allListings, cardsCss: true });
+        res.render("listings/index.ejs", { allListings, activeCategory: category || null, cardsCss: true });
     } catch (err) {
         next(err);
     }

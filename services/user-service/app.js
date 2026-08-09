@@ -32,10 +32,14 @@ const connectDb = async () => {
         await mongoose.connect(dbUrl);
         console.log("user-service: connected to db");
     } catch (err) {
-        console.log("user-service db error:", err.message);
+        console.error("user-service DB connection failed, exiting for restart:", err.message);
+        process.exit(1);
     }
 };
 connectDb();
+mongoose.connection.on('error', (err) => {
+    console.error("user-service mongoose error:", err.message);
+});
 
 const PORT = process.env.PORT || 4001;
 app.listen(PORT, () => {

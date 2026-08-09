@@ -21,6 +21,10 @@ const listingSchema = new Schema({
     country: {
         type: String,
     },
+    // Category used by the home-page filter icons (Trending, Mountains, Castles, …).
+    category: {
+        type: String,
+    },
     // Owner is referenced by id only (the user lives in the user-service DB, so no populate).
     // We store the id for authorization and the denormalized username for display.
     ownerId: {

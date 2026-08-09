@@ -14,8 +14,8 @@
             <img src="<%=finalurl%>" alt="img">
         </div>
         <div class="formitems ">
-            Upload Image 
-            <input name="listing[image]" value="<%= listing.image.url %>" type="file" style="font-size: 1.4rem; height: 4rem;  "  required>
+            Upload Image <small>(leave empty to keep current)</small>
+            <input name="listing[image]" type="file" style="font-size: 1.4rem; height: 4rem;  ">
         </div>
         <div class="formitems twoitems">
             Price
@@ -26,6 +26,15 @@
         <div class="formitems">
             Country
             <input name="listing[country]" value="<%= listing.country %>" type="text" required>
+        </div>
+        <div class="formitems">
+            Category
+            <select name="listing[category]" style="padding: 0.5rem; font-size: 1rem;">
+                <option value="">— none —</option>
+                <% for (let c of ['Trending','Rooms','Iconic Cities','Mountains','Castles','Amazing Pools','Camping','Farms','Arctic','Domes','Boats']) { %>
+                    <option value="<%= c %>" <%= listing.category === c ? 'selected' : '' %>><%= c %></option>
+                <% } %>
+            </select>
         </div>
         <button class="btn">Edit</button>
     </form>

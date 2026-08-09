@@ -31,7 +31,16 @@
         <div class="formitems">
             Country
             <input name="listing[country]" placeholder="Enter country" type="text" required>
-        </div>  
+        </div>
+        <div class="formitems">
+            Category
+            <select name="listing[category]" required style="padding: 0.5rem; font-size: 1rem;">
+                <option value="" disabled selected>Select a category</option>
+                <% for (let c of ['Trending','Rooms','Iconic Cities','Mountains','Castles','Amazing Pools','Camping','Farms','Arctic','Domes','Boats']) { %>
+                    <option value="<%= c %>"><%= c %></option>
+                <% } %>
+            </select>
+        </div>
         <button class="btn">Add</button>
 
 
