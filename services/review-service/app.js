@@ -29,10 +29,17 @@ const connectDb = async () => {
         await mongoose.connect(dbUrl);
         console.log("review-service: connected to db");
     } catch (err) {
-        console.log("review-service db error:", err.message);
+        // Don't run without a DB (that causes "buffering timed out" on every request).
+        // Exit so Kubernetes restarts the pod and retries the connection.
+        console.error("review-service DB connection failed, exiting for restart:", err.message);
+        process.exit(1);
     }
 };
 connectDb();
+// If the connection later drops and can't recover, exit so k8s restarts us.
+mongoose.connection.on('error', (err) => {
+    console.error("review-service mongoose error:", err.message);
+});
 
 const PORT = process.env.PORT || 4003;
 app.listen(PORT, () => {

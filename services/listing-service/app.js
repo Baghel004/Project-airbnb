@@ -29,10 +29,14 @@ const connectDb = async () => {
         await mongoose.connect(dbUrl);
         console.log("listing-service: connected to db");
     } catch (err) {
-        console.log("listing-service db error:", err.message);
+        console.error("listing-service DB connection failed, exiting for restart:", err.message);
+        process.exit(1);
     }
 };
 connectDb();
+mongoose.connection.on('error', (err) => {
+    console.error("listing-service mongoose error:", err.message);
+});
 
 const PORT = process.env.PORT || 4002;
 app.listen(PORT, () => {

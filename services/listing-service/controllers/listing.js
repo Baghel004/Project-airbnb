@@ -38,7 +38,10 @@ async function destroyImage(listing) {
 
 module.exports.index = async (req, res, next) => {
     try {
-        const listings = await Listing.find();
+        // Optional ?category=... filter for the home-page category icons.
+        const { category } = req.query;
+        const filter = category ? { category } : {};
+        const listings = await Listing.find(filter);
         res.json(listings);
     } catch (err) {
         next(err);
